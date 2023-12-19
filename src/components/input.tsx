@@ -31,6 +31,7 @@ type InputProps = {
   className?: string;
   defaultValue?: string | number;
   required?: boolean;
+  step?: number;
 };
 
 export function Input({
@@ -41,12 +42,14 @@ export function Input({
   className,
   defaultValue,
   required,
+  step,
 }: InputProps) {
   return (
     <input
       className={twMerge("input", className)}
       id={id}
       type={type}
+      step={step}
       name={name}
       placeholder={placeholder}
       defaultValue={defaultValue}

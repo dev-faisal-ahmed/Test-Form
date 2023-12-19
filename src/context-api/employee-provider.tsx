@@ -23,11 +23,6 @@ export function EmployeeProvider({ children }: { children: ReactNode }) {
   const [employees, setEmployees] = useState<EmployeeType[]>(getEmployeesFromLocalStorage() || []);
 
   function updateBasicInfo(payload: BasicInfoType) {
-    employees?.forEach((el) => {
-      if (employee.basicInfo.name === el.basicInfo.name)
-        throw new Error("You already added this user");
-    });
-
     setEmployee((prevState) => ({ ...prevState, basicInfo: payload }));
   }
 
@@ -46,6 +41,12 @@ export function EmployeeProvider({ children }: { children: ReactNode }) {
     updateEmployeesToLocalStorage([...employees, payload]);
   }
 
+  function removeEmployee(email: string) {
+    const newEmployees = employees.filter((emp) => emp.basicInfo.email !== email);
+    setEmployees(newEmployees);
+    updateEmployeesToLocalStorage(newEmployees);
+  }
+
   function clearEmployeeInfo() {
     setEmployee(defaultEmployeeInfo);
   }
@@ -59,6 +60,7 @@ export function EmployeeProvider({ children }: { children: ReactNode }) {
         updateStudentInfo,
         updateJobInfo,
         addNewEmployee,
+        removeEmployee,
         clearEmployeeInfo,
       }}
     >

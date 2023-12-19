@@ -3,6 +3,7 @@ import { FormField, Input, Label } from "../../../components/input";
 import { twMerge } from "tailwind-merge";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useEmployeeContext } from "../../../hooks/useEmployeeContext";
+import toast from "react-hot-toast";
 
 export function StudentInfoPage() {
   const router = useNavigate();
@@ -28,6 +29,7 @@ export function StudentInfoPage() {
       result: Number(form.result.value),
     });
 
+    toast.success("Employee Added");
     router("/");
   }
 
@@ -88,13 +90,22 @@ export function StudentInfoPage() {
                 type="number"
                 placeholder="Enter Garde"
                 defaultValue={employee.studentInfo?.result}
+                step={0.01}
                 required
               />
             </FormField>
           </div>
         </div>
 
-        <button className={twMerge("button", "block ml-auto")}>Submit</button>
+        <div className="flex">
+          <div
+            onClick={() => router("/add-employee/basic-info")}
+            className={twMerge("button", "bg-red-500")}
+          >
+            Back
+          </div>
+          <button className={twMerge("button", "block ml-auto")}>Submit</button>
+        </div>
       </form>
     </>
   );

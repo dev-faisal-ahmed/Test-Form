@@ -3,6 +3,7 @@ import { useEmployeeContext } from "../../../hooks/useEmployeeContext";
 import { FormEvent } from "react";
 import { FormField, Input, Label } from "../../../components/input";
 import { twMerge } from "tailwind-merge";
+import toast from "react-hot-toast";
 
 export function JobInfoPage() {
   const router = useNavigate();
@@ -26,6 +27,7 @@ export function JobInfoPage() {
       experience: Number(form.experience.value),
     });
 
+    toast.success("Employee Added");
     router("/");
   }
 
@@ -77,7 +79,15 @@ export function JobInfoPage() {
           </FormField>
         </div>
 
-        <button className={twMerge("button", "block ml-auto")}>Submit</button>
+        <div className="flex items-center">
+          <div
+            onClick={() => router("/add-employee/basic-info")}
+            className={twMerge("button", "bg-red-600")}
+          >
+            Back
+          </div>
+          <button className={twMerge("button", "block ml-auto")}>Submit</button>
+        </div>
       </form>
     </>
   );

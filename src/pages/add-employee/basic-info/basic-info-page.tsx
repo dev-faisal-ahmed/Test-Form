@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { FormField, Input, Label } from "../../../components/input";
 import { Option, Select } from "../../../components/select";
 import { useEmployeeContext } from "../../../hooks/useEmployeeContext";
 import { ProfessionType, StackType } from "../../../utils/types";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export function BasicInfoPage() {
-  const { updateBasicInfo } = useEmployeeContext();
+  const { updateBasicInfo, employee, employees } = useEmployeeContext();
   const route = useNavigate();
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  const [error, setError] = useState<boolean>(false);
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.target as HTMLFormElement & {
       firstName: { value: string };
@@ -27,6 +30,14 @@ export function BasicInfoPage() {
       stack: form.stack.value as StackType,
       profession: form.profession.value as ProfessionType,
     };
+
+    for (const emp of employees) {
+      if (emp.basicInfo.email === basicInfo.email) {
+        toast("❌ Employee already added! Use different email address");
+        setError(true);
+        return;
+      }
+    }
 
     updateBasicInfo(basicInfo);
 
@@ -52,6 +63,7 @@ export function BasicInfoPage() {
                 name="firstName"
                 type="text"
                 placeholder="Enter Your First Name"
+                defaultValue={employee.basicInfo.name.split(" ")[0]}
                 required
               />
             </FormField>
@@ -63,6 +75,7 @@ export function BasicInfoPage() {
                 name="lastName"
                 type="text"
                 placeholder="Enter Your Last Name"
+                defaultValue={employee.basicInfo.name.split(" ")[1]}
                 required
               />
             </FormField>
@@ -71,7 +84,15 @@ export function BasicInfoPage() {
           <div className="flex gap-5">
             <FormField>
               <Label htmlFor="first-name">Email</Label>
-              <Input id="email" name="email" type="email" placeholder="Enter Your Email" required />
+              <Input
+                className={error ? "border-red-600" : ""}
+                id="email"
+                name="email"
+                type="email"
+                placeholder="Enter Your Email"
+                defaultValue={employee.basicInfo.email}
+                required
+              />
             </FormField>
 
             <FormField>
@@ -81,6 +102,7 @@ export function BasicInfoPage() {
                 name="phoneNumber"
                 type="number"
                 placeholder="Enter Your Phone Number"
+                defaultValue={employee.basicInfo.phoneNumber}
                 required
               />
             </FormField>
@@ -88,7 +110,7 @@ export function BasicInfoPage() {
           <div className="flex gap-5">
             <FormField>
               <Label htmlFor="stack">FontEnd / BackEnd?</Label>
-              <Select name="stack" id="stack">
+              <Select defaultValue={employee.basicInfo.stack || "frontEnd"} name="stack" id="stack">
                 <Option value="frontEnd">FrontEnd</Option>
                 <Option value="backEnd">BackEnd</Option>
                 <Option value="fullStack">FullStack</Option>
@@ -97,15 +119,23 @@ export function BasicInfoPage() {
 
             <FormField>
               <Label htmlFor="profession">What's Your Profession?</Label>
-              <Select name="profession" id="profession">
+              <Select
+                defaultValue={employee.basicInfo.profession || "student"}
+                name="profession"
+                id="profession"
+              >
                 <Option value="student">Student</Option>
                 <Option value="jobHolder">Job Holder</Option>
               </Select>
             </FormField>
           </div>
         </div>
-
-        <button className={twMerge("button", "block ml-auto")}>Next {"-->"}</button>
+        <div className="flex items-center">
+          <div onClick={() => route("/")} className={twMerge("button", "bg-red-600")}>
+            Back
+          </div>
+          <button className={twMerge("button", "block ml-auto")}>Next</button>
+        </div>
       </form>
     </>
   );

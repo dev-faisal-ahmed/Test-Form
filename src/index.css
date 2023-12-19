@@ -2,10 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-.button {
-  @apply rounded-md bg-blue-600 text-white hover:text-blue-600 hover:bg-white font-semibold border-2 border-transparent hover:border-blue-600 px-5 py-2 transition;
-}
-
-.input {
-  @apply block w-full rounded-md border-2 bg-transparent px-3 py-2 outline-none ring-offset-transparent focus-visible:border-blue-600 focus-visible:ring-blue-600 focus-visible:ring-offset-2 text-sm;
+@layer components {
+  .button {
+    @apply rounded-md bg-blue-600 text-white hover:text-blue-600 hover:bg-white font-semibold border-2 border-transparent hover:border-blue-600 px-5 py-2 transition;
+  }
+  .input {
+    @apply block w-full rounded-md border-2 bg-transparent px-3 py-2 outline-none ring-offset-transparent focus-visible:border-blue-600 focus-visible:ring-blue-600 focus-visible:ring-offset-2 text-sm;
+  }
 }

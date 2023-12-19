@@ -36,4 +36,5 @@ export type EmployeeContextType = {
   updateStudentInfo(payload: StudentInfoType): void;
   updateJobInfo(payload: JobInfoType): void;
   clearEmployeeInfo(): void;
+  removeEmployee(email: string): void;
 };
