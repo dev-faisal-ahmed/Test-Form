@@ -11,11 +11,15 @@ export function Home() {
       <Link to={"/add-employee/basic-info"} className={twMerge("button", "ml-auto block w-fit")}>
         Add an Employee
       </Link>
-      <div className="grid grid-cols-2 gap-5 mt-8">
-        {employees.map((employee, index) => (
-          <EmployeeInfo key={index} {...employee} />
-        ))}
-      </div>
+      {employees.length > 0 ? (
+        <div className="grid grid-cols-2 gap-5 mt-8">
+          {employees.map((employee, index) => (
+            <EmployeeInfo key={index} {...employee} />
+          ))}
+        </div>
+      ) : (
+        <p className="mt-8 text-center font-bold text-xl">No Employee Found! Please Add First</p>
+      )}
     </>
   );
 }
